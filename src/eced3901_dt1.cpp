@@ -38,11 +38,11 @@ class SquareRoutine : public rclcpp::Node
 	// Constructor creates a node named Square_Routine. 
 	SquareRoutine() : Node("Square_Routine")
 	{
-		// Create the subscription
+		// Create the subscription (subscribes to odom)
 		// The callback function executes whenever data is published to the 'topic' topic.
 		subscription_ = this->create_subscription<nav_msgs::msg::Odometry>("odom", 10, std::bind(&SquareRoutine::topic_callback, this, _1));
           
-		// Create the publisher
+		// Create the publisher (publishes to cmd_vel)
 		// Publisher to a topic named "topic". The size of the queue is 10 messages.
 		publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel",10);
       
@@ -75,9 +75,9 @@ class SquareRoutine : public rclcpp::Node
 		}
 		// If done step, stop
 		else
-		{
+	
 			msg.linear.x = 0; //double(rand())/double(RAND_MAX); //fun
-			msg.angular.z = 0; //2*double(rand())/double(RAND_MAX) - 1; //fun
+			msg.angular.z = 1; //2*double(rand())/double(RAND_MAX) - 1; //fun //Changed the angular speed from 0 to 1 as to simulate turning
 			publisher_->publish(msg);
 			last_state_complete = 1;
 		}
@@ -113,7 +113,7 @@ class SquareRoutine : public rclcpp::Node
 		}			
 	}
 	
-	// Set the initial position as where robot is now and put new d_aim in place	
+	// Set the initial position as where robot is now and put new d_aim in place
 	void move_distance(double distance)
 	{
 		d_aim = distance;
@@ -136,7 +136,7 @@ class SquareRoutine : public rclcpp::Node
 	// Declaration of Class Variables
 	double x_vel = 0.2;
 	double x_now = 0, x_init = 0, y_now = 0, y_init = 0;
-	double d_now = 0, d_aim = 0;
+	double d_now = 0, d_aim = 1.0; // changed our d_aim from 0 to 1 as to simulate travelling 1 meter
 	size_t count_ = 0;
 	int last_state_complete = 1;
 };
