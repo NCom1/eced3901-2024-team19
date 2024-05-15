@@ -1,8 +1,9 @@
 /*
 Code for DT1
-V. Sieben
+Based off V. Sieben
+Written by Nicholas Comeau - Group 19 ECED3901
 Version 1.0
-Date: Feb 4, 2023
+Date: May 14, 2024
 License: GNU GPLv3
 */
 
@@ -55,8 +56,14 @@ class SquareRoutine : public rclcpp::Node
 	{
 		x_now = msg->pose.pose.position.x;
 		y_now = msg->pose.pose.position.y;
+
+		//get the quaternion values for the orientation. wont need the x and y values but they are inlcuded so i understand things easier.
+		qua_x = msg->pose.pose.orientation.x;
+		qua_y = msg->pose.pose.orientation.y;
+		qua_z = msg->pose.pose.orientation.z;
+		qua_w = msg->pose.pose.orientation.w;
 		
-		//RCLCPP_INFO(this->get_logger(), "Odom Acquired.");
+		RCLCPP_INFO(this->get_logger(), "Odom Acquired."); //display the odometry values (i think)
 	}
 	
 	void timer_callback()
@@ -65,6 +72,20 @@ class SquareRoutine : public rclcpp::Node
         	
 		// Calculate distance travelled from initial
 		d_now =	pow( pow(x_now - x_init, 2) + pow(y_now - y_init, 2), 0.5 );
+
+		//normalize the quaternion
+		qua_norm = pow((pow(qua_x,2)+pow(qua_y,2)+pow(qua_z,2)+pow(qua_w,2)),0.5);
+
+		qua_x = qua_x/qua_norm; 
+		qua_y = qua_y/qua_norm; 
+		qua_z = qua_z/qua_norm; 
+		qua_w = qua_w/qua_norm; 
+
+		//convert quaternion to euler/degrees Code taken from https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+		double siny_cosp = 2 * (qua_w * qua_z + qua_x * qua_y);
+    		double cosy_cosp = 1 - 2 * (qua_y * qua_y + qua_z * qua_z);
+   		angle_now = ((180/M_PI) * std::atan2(siny_cosp, cosy_cosp));//added 180/pi to get into degrees
 		
 		// Keep moving if not reached last distance target
 		if (d_now < d_aim)
@@ -73,11 +94,19 @@ class SquareRoutine : public rclcpp::Node
 			msg.angular.z = 0;
 			publisher_->publish(msg);		
 		}
+		//turn to the left when 1 meter has been acheived
+		else if (){
+
+			msg.linear.x = 0; //stops the robot
+			msg.angular.z = 0.1; //starts to turn on itself for 90degrees
+			publisher_-publish(msg);
+
+		}
 		// If done step, stop
 		else
 	
-			msg.linear.x = 0; //double(rand())/double(RAND_MAX); //fun
-			msg.angular.z = 1; //2*double(rand())/double(RAND_MAX) - 1; //fun //Changed the angular speed from 0 to 1 as to simulate turning
+			msg.linear.x = 0;
+			msg.angular.z = 0;
 			publisher_->publish(msg);
 			last_state_complete = 1;
 		}
@@ -122,7 +151,6 @@ class SquareRoutine : public rclcpp::Node
 		count_++;		// advance state counter
 		last_state_complete = 0;	
 	}
-	
 
 	// Declaration of subscription_ attribute
 	rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr subscription_;
@@ -136,7 +164,7 @@ class SquareRoutine : public rclcpp::Node
 	// Declaration of Class Variables
 	double x_vel = 0.2;
 	double x_now = 0, x_init = 0, y_now = 0, y_init = 0;
-	double d_now = 0, d_aim = 1.0; // changed our d_aim from 0 to 1 as to simulate travelling 1 meter
+	double d_now = 0, d_aim = 0;
 	size_t count_ = 0;
 	int last_state_complete = 1;
 };
