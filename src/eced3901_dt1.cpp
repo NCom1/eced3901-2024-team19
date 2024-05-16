@@ -13,7 +13,7 @@ License: GNU GPLv3
 #include <functional>		// Arithmetic, comparisons, and logical operations
 #include <memory>		// Dynamic memory management
 #include <string>		// String functions
-#include <cmath>
+#include <cmath>		// Math Functions
 
 // ROS Client Library for C++
 #include "rclcpp/rclcpp.hpp"
@@ -95,11 +95,11 @@ class SquareRoutine : public rclcpp::Node
 			publisher_->publish(msg);		
 		}
 		//turn to the left when 1 meter has been acheived
-		else if (){
+		else if (abs(constrainAngle(angle_now-angle_init) < angle_aim)){
 
 			msg.linear.x = 0; //stops the robot
-			msg.angular.z = 0.1; //starts to turn on itself for 90degrees
-			publisher_-publish(msg);
+			msg.angular.z = z_ang; //starts to turn on itself for 90degrees
+			publisher_->publish(msg);
 
 		}
 		// If done step, stop
@@ -114,44 +114,73 @@ class SquareRoutine : public rclcpp::Node
 
 		sequence_statemachine();		
 		
-
 		//RCLCPP_INFO(this->get_logger(), "Published cmd_vel.");
-	}
 	
 	void sequence_statemachine()
 	{
-		if (last_state_complete == 1)
+		if (last_statement_complete == 1)
 		{
-			switch(count_) 
+			switch(count_)
 			{
-			  case 0:
-			    move_distance(1.0);
-			    break;
-			  case 1:
-			    move_distance(1.0);
-			    break;
-			  case 2:
-			    move_distance(1.0);
-			    break;
-			  case 3:
-			    move_distance(1.0);
-			    break; 
-			  default:
-			    break;
-			}
-		}			
+				case 0:
+					move_distance(1.0);
+					RCLCPP_INFO(this->get_logger(), "case 0");//print current case for debugging
+					//current_angle = angle_now;
+					break;
+				case 1:
+					turn_angle(90);
+					break;
+				case 2:
+					move_distance(1.0);
+					//current_angle = angle_now;
+					break;
+				case 3:
+					turn_angle(90);
+					break;
+				case 4:
+					move_distance(1.0);
+					//current_angle = angle_now;
+					break;
+				case 5:
+					turn_angle(90);
+					break;
+				case 6:
+					move_distance(1.0);
+					//current_angle = angle_now;
+					break;
+				case 7:
+					turn_angle(90);
+					break;
+				default:
+					break;
+			}	
+		}
 	}
 	
 	// Set the initial position as where robot is now and put new d_aim in place
 	void move_distance(double distance)
 	{
 		d_aim = distance;
-		x_init = x_now;
+		x_init = x_now;		//sets x and y init to be able to calculate distance from setpoint
 		y_init = y_now;		
 		count_++;		// advance state counter
 		last_state_complete = 0;	
 	}
-
+	void turn_angle(double angle)//sets the initial angle to where the robot is point to now and adds a new angle_aim in place
+	{
+		angle_aim = angle; //sets the desired angle we want to turn the robot by
+		angle_init = angle_now; //find it current angle from the quaternion values
+		count_++; //advance the state count to move to next case
+		last_state_complete = 0;
+	}
+	double constrainAngle(double angle) //contrains angle if it shows up as negative (Angle Wrap)
+	{
+  		angle = fmod(angle+180,360);
+    			if (angle < 0){
+        		angle += 360;
+			}
+  		return angle-180;
+	}	
 	// Declaration of subscription_ attribute
 	rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr subscription_;
          
@@ -162,10 +191,16 @@ class SquareRoutine : public rclcpp::Node
 	rclcpp::TimerBase::SharedPtr timer_;
 	
 	// Declaration of Class Variables
-	double x_vel = 0.2;
-	double x_now = 0, x_init = 0, y_now = 0, y_init = 0;
-	double d_now = 0, d_aim = 0;
-	size_t count_ = 0;
+	double x_vel = 0.2; //the velocity of the robot experiences when it moves in the x direction
+	double z_ang = 0.1; //the angular velocity of the robot when it rotates in the z orientation
+	double x_now = 0, y_now = 0; //Current x and y position the robot is currently at
+	double x_init = 0, y_init = 0; //Initial x and y position the robot at the start of the move distance command
+	double d_now = 0; //current distance from its staring point at the start of the move distance command 
+	double d_aim = 0; //how far we want the robot to travel
+	double angle_aim = 0; //desired angle to turn the robot
+	double angle_init = 0; //initial angle seen by the robot at the start of its turn
+	double angle_now = 0; //current angle calculated from quaternion
+	size_t count_ = 0; //state counter (goes through switch case)
 	int last_state_complete = 1;
 };
     	
@@ -185,6 +220,3 @@ int main(int argc, char * argv[])
 	rclcpp::shutdown();
 	return 0;
 }
-
-
-
