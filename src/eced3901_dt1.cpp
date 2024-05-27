@@ -63,7 +63,7 @@ class SquareRoutine : public rclcpp::Node
 		qua_z = msg->pose.pose.orientation.z;
 		qua_w = msg->pose.pose.orientation.w;
 		
-		RCLCPP_INFO(this->get_logger(), "Odom Acquired."); //display the odometry values (i think)
+		//RCLCPP_INFO(this->get_logger(), "Odom Acquired."); //display the odometry values (i think)
 	}
 	
 	void timer_callback()
@@ -103,7 +103,7 @@ class SquareRoutine : public rclcpp::Node
 
 		}
 		// If done step, stop
-		else
+		else {
 	
 			msg.linear.x = 0;
 			msg.angular.z = 0;
@@ -114,42 +114,55 @@ class SquareRoutine : public rclcpp::Node
 
 		sequence_statemachine();		
 		
+	}
 		//RCLCPP_INFO(this->get_logger(), "Published cmd_vel.");
 	
 	void sequence_statemachine()
 	{
-		if (last_statement_complete == 1)
+		if (last_state_complete == 1)
 		{
 			switch(count_)
 			{
 				case 0:
-					move_distance(1.0);
+					move_distance(0.87);
 					RCLCPP_INFO(this->get_logger(), "case 0");//print current case for debugging
 					//current_angle = angle_now;
 					break;
 				case 1:
-					turn_angle(90);
+					RCLCPP_INFO(this->get_logger(), "%f", angle_now);
+					turn_angle(83);
+					RCLCPP_INFO(this->get_logger(), "case 1");//print current case for debugging
 					break;
 				case 2:
-					move_distance(1.0);
+					move_distance(0.87);
 					//current_angle = angle_now;
+					RCLCPP_INFO(this->get_logger(), "case 2");//print current case for debugging
+					RCLCPP_INFO(this->get_logger(), "%f", angle_now);
 					break;
 				case 3:
-					turn_angle(90);
+					turn_angle(83);
+					RCLCPP_INFO(this->get_logger(), "case 3");//print current case for debugging
 					break;
 				case 4:
-					move_distance(1.0);
+					move_distance(0.87);
+					RCLCPP_INFO(this->get_logger(), "%f", angle_now);
 					//current_angle = angle_now;
+					RCLCPP_INFO(this->get_logger(), "case 4");//print current case for debugging
 					break;
 				case 5:
-					turn_angle(90);
+					turn_angle(83);
+					RCLCPP_INFO(this->get_logger(), "case 5");//print current case for debugging
 					break;
 				case 6:
-					move_distance(1.0);
+					move_distance(0.87);
+					RCLCPP_INFO(this->get_logger(), "%f", angle_now);
 					//current_angle = angle_now;
+					RCLCPP_INFO(this->get_logger(), "case 6");//print current case for debugging
 					break;
 				case 7:
-					turn_angle(90);
+					turn_angle(83);
+					RCLCPP_INFO(this->get_logger(), "case 7");//print current case for debugging
+					RCLCPP_INFO(this->get_logger(), "%f", angle_now);
 					break;
 				default:
 					break;
@@ -191,15 +204,20 @@ class SquareRoutine : public rclcpp::Node
 	rclcpp::TimerBase::SharedPtr timer_;
 	
 	// Declaration of Class Variables
-	double x_vel = 0.2; //the velocity of the robot experiences when it moves in the x direction
-	double z_ang = 0.1; //the angular velocity of the robot when it rotates in the z orientation
+	double x_vel = 0.3; //the velocity of the robot experiences when it moves in the x direction
+	double z_ang = 0.3; //the angular velocity of the robot when it rotates in the z orientation
 	double x_now = 0, y_now = 0; //Current x and y position the robot is currently at
 	double x_init = 0, y_init = 0; //Initial x and y position the robot at the start of the move distance command
 	double d_now = 0; //current distance from its staring point at the start of the move distance command 
 	double d_aim = 0; //how far we want the robot to travel
+	double distance = 0;
+	double angle = 0;
 	double angle_aim = 0; //desired angle to turn the robot
 	double angle_init = 0; //initial angle seen by the robot at the start of its turn
-	double angle_now = 0; //current angle calculated from quaternion
+	double angle_now = 0; //current angle calculated from quaternion0
+	double qua_x = 0, qua_y = 0, qua_z = 0, qua_w = 0; //innitialize quaternion values
+	double qua_norm = 0;
+	double siny_cosp = 0, sinp_cosp = 0; //initialize the quaternion to euler equations
 	size_t count_ = 0; //state counter (goes through switch case)
 	int last_state_complete = 1;
 };
