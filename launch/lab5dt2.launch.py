@@ -2,11 +2,11 @@
 # Date: August 30, 2021
 # Description: Launch a basic mobile robot
 # https://automaticaddison.com
-# Modified: V. Sieben, Feb. 2023.
+# Modified: V. Sieben, Feb. 2023, N. Comeau, May. 2024
 
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, TimerAction
 from launch.conditions import IfCondition, UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, LaunchConfiguration, PythonExpression
@@ -110,6 +110,28 @@ def generate_launch_description():
    
   # Specify the actions
 
+  #launch the DT1 square node
+
+ start_dt1 = Node(
+   package= 'eced3901',
+   executable= 'start_dt1',
+   name = 'square',
+   output= 'screen'),
+   
+  #launch saving node
+
+  map_save = Node(
+    package= 'nav2_map_server' #not sure if map_server is right for package but we use it to save map in lab 4 so im going to try it
+    executable= 'map_saver_cli',
+    name = 'map_saver',
+
+  #launch timer node (runs the map save node after 60 seconds)
+
+  delay = TimerAction( 
+    period = 60.0,
+    actions = [map_save],
+  )
+  
   # Launch RViz
   start_rviz_cmd = Node(
     condition=IfCondition(use_rviz),
@@ -151,6 +173,8 @@ def generate_launch_description():
   # Add any actions
   ld.add_action(start_rviz_cmd)
   ld.add_action(start_ros2_navigation_cmd)
+  ld.add_action(start_dt1)  #starts moving the robt in a square
+  ld.add_action(delay)      #saves the map after a delay (when the robot is done)
 
   return ld
 
