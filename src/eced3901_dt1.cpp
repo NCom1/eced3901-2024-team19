@@ -124,43 +124,43 @@ class SquareRoutine : public rclcpp::Node
 			switch(count_)
 			{
 				case 0:
-					move_distance(0.87);
+					move_distance(1.0);
 					RCLCPP_INFO(this->get_logger(), "case 0");//print current case for debugging
 					//current_angle = angle_now;
 					break;
 				case 1:
 					RCLCPP_INFO(this->get_logger(), "%f", angle_now);
-					turn_angle(83);
+					turn_angle(85);
 					RCLCPP_INFO(this->get_logger(), "case 1");//print current case for debugging
 					break;
 				case 2:
-					move_distance(0.87);
+					move_distance(1.0);
 					//current_angle = angle_now;
 					RCLCPP_INFO(this->get_logger(), "case 2");//print current case for debugging
 					RCLCPP_INFO(this->get_logger(), "%f", angle_now);
 					break;
 				case 3:
-					turn_angle(83);
+					turn_angle(85);
 					RCLCPP_INFO(this->get_logger(), "case 3");//print current case for debugging
 					break;
 				case 4:
-					move_distance(0.87);
+					move_distance(1.0); //0.87
 					RCLCPP_INFO(this->get_logger(), "%f", angle_now);
 					//current_angle = angle_now;
 					RCLCPP_INFO(this->get_logger(), "case 4");//print current case for debugging
 					break;
 				case 5:
-					turn_angle(83);
+					turn_angle(85);
 					RCLCPP_INFO(this->get_logger(), "case 5");//print current case for debugging
 					break;
 				case 6:
-					move_distance(0.87);
+					move_distance(1.0);
 					RCLCPP_INFO(this->get_logger(), "%f", angle_now);
 					//current_angle = angle_now;
 					RCLCPP_INFO(this->get_logger(), "case 6");//print current case for debugging
 					break;
 				case 7:
-					turn_angle(83);
+					turn_angle(85);
 					RCLCPP_INFO(this->get_logger(), "case 7");//print current case for debugging
 					RCLCPP_INFO(this->get_logger(), "%f", angle_now);
 					break;
@@ -204,10 +204,8 @@ class SquareRoutine : public rclcpp::Node
 	rclcpp::TimerBase::SharedPtr timer_;
 	
 	// Declaration of Class Variables
-	double x_vel = 0.3; //the velocity of the robot experiences when it moves in the x direction
-	double z_ang = 0.3; //the angular velocity of the robot when it rotates in the z direction
-	double x_vel = 0.2; //the velocity of the robot experiences when it moves in the x direction
-	double z_ang = 0.2; //the angular velocity of the robot when it rotates in the z orientation
+	double x_vel = 0.1; //the velocity of the robot experiences when it moves in the x direction
+	double z_ang = 0.2; //the angular velocity of the robot when it rotates in the z direction
 	double x_now = 0, y_now = 0; //Current x and y position the robot is currently at
 	double x_init = 0, y_init = 0; //Initial x and y position the robot at the start of the move distance command
 	double d_now = 0; //current distance from its staring point at the start of the move distance command 
