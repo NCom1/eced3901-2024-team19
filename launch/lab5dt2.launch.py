@@ -125,7 +125,7 @@ def generate_launch_description():
     package= 'nav2_map_server', #not sure if map_server is right for package but we use it to save map in lab 4 so im going to try it
     executable= 'map_saver_cli',
     name = 'map_saver',
-    argument = ['-f', ])
+    argument = ['-f', '/home/student/ros2_ws/src/eced3901/maps'])
 
   #launch timer node (runs the map save node after 60 seconds)
 
