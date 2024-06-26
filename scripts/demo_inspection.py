@@ -15,9 +15,11 @@
 
 from copy import deepcopy
 
-from geometry_msgs.msg import PoseStamped
+from geometry_msgs.msg import PoseStamped, Quaternion # added quaternions
 from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
 import rclpy
+import math
+from geometry_msgs.msg import Quaternion, QuaternionStamped #added quaternions
 
 """
 Basic stock inspection demo. In this demonstration, the expectation
@@ -32,7 +34,7 @@ def main():
     navigator = BasicNavigator()
 
     # Inspection route, probably read in from a file for a real application
-    # from either a map or drive and repeat.
+    # from either a map or drive and repeat. The main route that will be taken for DT3, needs to determine the waypoint values before starting. [x,y] values in the mapping mode I think
     inspection_route = [
         [3.461, -0.450],
         [5.531, -0.450],
@@ -66,6 +68,10 @@ def main():
     for pt in inspection_route:
         inspection_pose.pose.position.x = pt[0]
         inspection_pose.pose.position.y = pt[1]
+        q = Quaternion() #gets our quarternion values
+        q.z = math.sin(pt[2] / 2) #these 2 lines start to convert the quaternion into euler values
+        q.w = math.cos(pt[2] / 2)
+        inspection_pose.pose.orientation = q
         inspection_points.append(deepcopy(inspection_pose))
     navigator.followWaypoints(inspection_points)
 
