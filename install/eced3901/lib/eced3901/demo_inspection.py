@@ -15,9 +15,11 @@
 
 from copy import deepcopy
 
-from geometry_msgs.msg import PoseStamped
+from geometry_msgs.msg import PoseStamped, Quaternion # added quaternions
 from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
 import rclpy
+import math
+from geometry_msgs.msg import Quaternion, QuaternionStamped #added quaternions
 
 """
 Basic stock inspection demo. In this demonstration, the expectation
@@ -32,23 +34,19 @@ def main():
     navigator = BasicNavigator()
 
     # Inspection route, probably read in from a file for a real application
-    # from either a map or drive and repeat.
+    # from either a map or drive and repeat. The main route that will be taken for DT3, needs to determine the waypoint values before starting. [x,y] values in the mapping mode I think
     inspection_route = [
-        [3.461, -0.450],
-        [5.531, -0.450],
-        [3.461, -2.200],
-        [5.531, -2.200],
-        [3.661, -4.121],
-        [5.431, -4.121],
-        [3.661, -5.850],
-        [5.431, -5.800]]
+        [1.000, 0.000], #position at bottom right
+        [1.000, 1.000], #position opposite starting location
+        [0.000, 1.000], #position top left
+        [0.000, 0.000]] #return to starting position
 
     # Set our demo's initial pose
     initial_pose = PoseStamped()
     initial_pose.header.frame_id = 'map'
     initial_pose.header.stamp = navigator.get_clock().now().to_msg()
-    initial_pose.pose.position.x = 3.45
-    initial_pose.pose.position.y = 2.15
+    initial_pose.pose.position.x = -0.004 #changed the original position since originally out of map bounds for both x and y
+    initial_pose.pose.position.y = -0.003
     initial_pose.pose.orientation.z = 1.0
     initial_pose.pose.orientation.w = 0.0
     navigator.setInitialPose(initial_pose)
@@ -63,10 +61,20 @@ def main():
     inspection_pose.header.stamp = navigator.get_clock().now().to_msg()
     inspection_pose.pose.orientation.z = 1.0
     inspection_pose.pose.orientation.w = 0.0
+    
     for pt in inspection_route:
         inspection_pose.pose.position.x = pt[0]
         inspection_pose.pose.position.y = pt[1]
+        
+        if pt[2] > 0:
+        	inspection_pose.pose.orientation.z = 0.707
+        	inspection_pose.pose.orientation.w = 0.707
+        else:
+        	inspection_pose.pose.orientation.z = -0.707
+        	inspection_pose.pose.orientation.w = 0.707
+   
         inspection_points.append(deepcopy(inspection_pose))
+        
     navigator.followWaypoints(inspection_points)
 
     # Do something during our route (e.x. AI to analyze stock information or upload to the cloud)
@@ -99,3 +107,9 @@ def main():
 if __name__ == '__main__':
     main()
     
+    
+    
+   # q = Quaternion() #gets our quarternion values
+    #    q.z = math.sin(pt[2] / 2) #these 2 lines start to convert the quaternion into euler values
+     #   q.w = math.cos(pt[2] / 2)
+      #  inspection_pose.pose.orientation = q
