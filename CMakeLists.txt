@@ -44,7 +44,7 @@ install(
 
 # Install Python executables
 install(PROGRAMS
-#  scripts/wp_follower.py
+ # scripts/wp_follower.py
   scripts/demo_inspection.py
   DESTINATION lib/${PROJECT_NAME})
 
