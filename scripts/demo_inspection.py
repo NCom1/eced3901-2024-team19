@@ -25,12 +25,13 @@ import numpy as np
 #Added a quaternion to euler formula as to be able to use the correct angle values
 def get_quaternion_from_euler(roll, pitch, yaw):
 
-  qx = np.sin(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) - np.cos(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
-  qy = np.cos(roll/2) * np.sin(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.cos(pitch/2) * np.sin(yaw/2)
-  qz = np.cos(roll/2) * np.cos(pitch/2) * np.sin(yaw/2) - np.sin(roll/2) * np.sin(pitch/2) * np.cos(yaw/2)
-  qw = np.cos(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
+    qx = np.sin(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) - np.cos(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
+    qy = np.cos(roll/2) * np.sin(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.cos(pitch/2) * np.sin(yaw/2)
+    qz = np.cos(roll/2) * np.cos(pitch/2) * np.sin(yaw/2) - np.sin(roll/2) * np.sin(pitch/2) * np.cos(yaw/2)
+    qw = np.cos(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
+    print('test 1 \n \n \n \n \n \n \n' )
  
-  return [qx, qy, qz, qw]
+    return [qx, qy, qz, qw]
 
 """
 Basic stock inspection demo. In this demonstration, the expectation
@@ -56,8 +57,9 @@ def main():
     initial_pose = PoseStamped()
     initial_pose.header.frame_id = 'map'
     initial_pose.header.stamp = navigator.get_clock().now().to_msg()
-    initial_pose.pose.position.x = 0.000 
-    initial_pose.pose.position.y = 0.000
+    initial_pose.pose.position.x = 3.45 
+    initial_pose.pose.position.y = 2.15
+    #w = get_quaternion_from_euler(0.00,0.00,0.00)
     initial_pose.pose.orientation.z = 1.0
     initial_pose.pose.orientation.w = 0.0
     navigator.setInitialPose(initial_pose)
@@ -68,25 +70,22 @@ def main():
     # Send our route
     inspection_points = []
     inspection_pose = PoseStamped()
-    print('test \n \n \n \n \n \n \n' )
     inspection_pose.header.frame_id = 'map'
     inspection_pose.header.stamp = navigator.get_clock().now().to_msg()
     inspection_pose.pose.orientation.z = 1.0
     inspection_pose.pose.orientation.w = 0.0
     
     for pt in inspection_route:
-        print('test \n \n \n \n \n \n \n' )
+        q = 0
         inspection_pose.pose.position.x = pt[0]
         inspection_pose.pose.position.y = pt[1]
-        q = get_quaternion_from_euler(0,0,pt[2]) #Added the euler to quaternion conversion formula as to be able to set the orientation. In effect for the following 4 lines
+        q = get_quaternion_from_euler(0.00,0.00,pt[2]) #Added the euler to quaternion conversion formula as to be able to set the orientation. In effect for the following 4 lines
         inspection_pose.pose.orientation.x = q[0]
-        print('test \n \n \n \n \n \n \n' )
         inspection_pose.pose.orientation.y = q[1]
         inspection_pose.pose.orientation.z = q[2]
-        print('test \n \n \n \n \n \n \n' )
         inspection_pose.pose.orientation.w = q[3]
         inspection_points.append(deepcopy(inspection_pose))
-        print('test \n \n \n \n \n \n \n' )
+        
         
     navigator.followWaypoints(inspection_points)
 
