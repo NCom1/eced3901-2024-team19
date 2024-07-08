@@ -22,13 +22,13 @@ import math
 
 import numpy as np
 
-#Added a quaternion to euler formula as to be able to use the correct angle values
+#Added a quaternion to euler formula as to be able to use the correct angle values, takes rool pitch and yaw and outputs quaterniono values in a matrix
 def get_quaternion_from_euler(roll, pitch, yaw):
 
-    qx = np.sin(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) - np.cos(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
-    qy = np.cos(roll/2) * np.sin(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.cos(pitch/2) * np.sin(yaw/2)
-    qz = np.cos(roll/2) * np.cos(pitch/2) * np.sin(yaw/2) - np.sin(roll/2) * np.sin(pitch/2) * np.cos(yaw/2)
-    qw = np.cos(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
+    qx = np.sin(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) - np.cos(roll/2) * np.sin(pitch/2) * np.sin(yaw/2) #X component
+    qy = np.cos(roll/2) * np.sin(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.cos(pitch/2) * np.sin(yaw/2) #Y component
+    qz = np.cos(roll/2) * np.cos(pitch/2) * np.sin(yaw/2) - np.sin(roll/2) * np.sin(pitch/2) * np.cos(yaw/2) #Z component
+    qw = np.cos(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.sin(pitch/2) * np.sin(yaw/2) #W component
     print('test 1 \n \n \n \n \n \n \n' )
  
     return [qx, qy, qz, qw]
@@ -57,11 +57,10 @@ def main():
     initial_pose = PoseStamped()
     initial_pose.header.frame_id = 'map'
     initial_pose.header.stamp = navigator.get_clock().now().to_msg()
-    initial_pose.pose.position.x = 3.45 
-    initial_pose.pose.position.y = 2.15
-    #w = get_quaternion_from_euler(0.00,0.00,0.00)
-    initial_pose.pose.orientation.z = 1.0
-    initial_pose.pose.orientation.w = 0.0
+    initial_pose.pose.position.x = 0.000 #Initial position set to 0.3, 0.3 from the corner, corner is at -0.3, -0.3 so 0,0 is equivalent
+    initial_pose.pose.position.y = 0.000
+    initial_pose.pose.orientation.z = 0.000
+    initial_pose.pose.orientation.w = 1.000
     navigator.setInitialPose(initial_pose)
 
     # Wait for navigation to fully activate
@@ -79,7 +78,7 @@ def main():
         q = 0
         inspection_pose.pose.position.x = pt[0]
         inspection_pose.pose.position.y = pt[1]
-        q = get_quaternion_from_euler(0.00,0.00,pt[2]) #Added the euler to quaternion conversion formula as to be able to set the orientation. In effect for the following 4 lines
+        q = get_quaternion_from_euler(0.00,0.00,pt[2]) #Added the euler to quaternion conversion formula as to be able to set the orientation. In effect for the following 4 lines for the x, y, z and w values
         inspection_pose.pose.orientation.x = q[0]
         inspection_pose.pose.orientation.y = q[1]
         inspection_pose.pose.orientation.z = q[2]

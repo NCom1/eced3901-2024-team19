@@ -9,4 +9,5 @@ Usefull Git commands:
 git pull (remote to local)
 git push (local to remote)
 git status (checks what is new on local)
-got commit -m "message" (commits to remote with message attached)
+git commit -m "message" (commits to remote with message attached)
+git add . to add all changes
