@@ -39,6 +39,7 @@ is that there are cameras or RFID sensors mounted on the robots
 collecting information about stock quantity and location.
 """
 
+#Add entire function into a swutch case function to be able to change inspection route from analog controller on robot.
 
 def main():
     rclpy.init()
@@ -52,7 +53,7 @@ def main():
         [1.000, 1.000, 3.1415], #position opposite starting location
         [0.000, 1.000, -1.571], #position top left
         [0.000, 0.000, 0.000]] #return to starting position
-
+    
     # Set our demo's initial pose
     initial_pose = PoseStamped()
     initial_pose.header.frame_id = 'map'
