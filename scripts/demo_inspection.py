@@ -47,7 +47,7 @@ def main():
     navigator = BasicNavigator()
 
     # Inspection route, probably read in from a file for a real application
-    # from either a map or drive and repeat. The main route that will be taken for DT3, needs to determine the waypoint values before starting. [x,y] values in the mapping mode I think
+    # from either a map or drive and repeat. The main route that will be taken for DT3, needs to determine the waypoint values before starting. [x, y, angle]. Angle needs to be in rads and NOT DEG
     inspection_route = [
         [1.000, 0.000, 1.571], #position at bottom right
         [1.000, 1.000, 3.1415], #position opposite starting location
