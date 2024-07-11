@@ -53,13 +53,44 @@ def main():
         [1.000, 1.000, 3.1415], #position opposite starting location
         [0.000, 1.000, -1.571], #position top left
         [0.000, 0.000, 0.000]] #return to starting position
-    
+    '''
+    #Safer route through final course
+    inspection_route = [
+        [0.300, 3.175, -1.571],
+        [3.454, 3.175, 3.1415],
+        [3.454, 0.508, 1.571],
+        [1.442, 0.508, 0.000],
+        [1.442, 2.337, 1.571],
+        [1.118, 2.337, 3.1415],
+        [1.118, 0.508, 1.571],
+        [0.813, 0.508, 0.000],
+        [0.813, 3.175, 1.571],
+        [0.300, 3.175, 3.1415],
+        [0.300, 0.300, 3.1415]]
+
+    '''
+    '''
+    #More risky route through the final course
+    inspection_route = [
+        [0.300, 3.175, -1.571],
+        [2.642, 3.175, 3.1414],
+
+        [2.234, 0.508, 1.571], #first waypoint outside of middle need to add middle waypoints later.
+        [1.442, 0.508, 0.000],
+        [1.442, 2.337, 1.571],
+        [1.118, 2.337, 3.1415],
+        [1.118, 0.508, 1.571],
+        [0.813, 0.508, 0.000],
+        [0.813, 3.175, 1.571],
+        [0.300, 3.175, 3.1415],
+        [0.300, 0.300, 3.1415]]
+    '''
     # Set our demo's initial pose
     initial_pose = PoseStamped()
     initial_pose.header.frame_id = 'map'
     initial_pose.header.stamp = navigator.get_clock().now().to_msg()
-    initial_pose.pose.position.x = 0.000 #Initial position set to 0.3, 0.3 from the corner, corner is at -0.3, -0.3 so 0,0 is equivalent
-    initial_pose.pose.position.y = 0.000
+    initial_pose.pose.position.x = 0.300 #Initial position set to 0.30 since 12 inch from walls
+    initial_pose.pose.position.y = 0.300
     initial_pose.pose.orientation.z = 0.000
     initial_pose.pose.orientation.w = 1.000
     navigator.setInitialPose(initial_pose)
