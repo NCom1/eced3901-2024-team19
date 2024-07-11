@@ -48,6 +48,7 @@ def main():
 
     # Inspection route, probably read in from a file for a real application
     # from either a map or drive and repeat. The main route that will be taken for DT3, needs to determine the waypoint values before starting. [x, y, angle]. Angle needs to be in rads and NOT DEG
+    '''
     inspection_route = [
         [1.000, 0.000, 1.571], #position at bottom right
         [1.000, 1.000, 3.1415], #position opposite starting location
@@ -60,7 +61,7 @@ def main():
         [3.454, 3.175, 3.1415],
         [3.454, 0.508, 1.571],
         [1.442, 0.508, 0.000],
-        [1.442, 2.616, 1.571], %Following waypoints are 2-5 for spice on our side need updated y values
+        [1.442, 2.616, 1.571], 
         [1.118, 2.616, 3.1415],
         [1.118, 0.787, 1.571],
         [0.813, 0.787, 0.000],
@@ -68,7 +69,7 @@ def main():
         [0.300, 3.175, 3.1415],
         [0.300, 0.300, 3.1415]]
 
-    '''
+  
     '''
     #More risky route through the final course
     inspection_route = [

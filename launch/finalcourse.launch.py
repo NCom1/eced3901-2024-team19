@@ -2,11 +2,11 @@
 # Date: August 30, 2021
 # Description: Launch a basic mobile robot
 # https://automaticaddison.com
-# Modified: V. Sieben, Feb. 2023, N. Comeau, May. 2024
+# Modified: V. Sieben, Feb. 2023.
 
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, TimerAction
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.conditions import IfCondition, UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, LaunchConfiguration, PythonExpression
@@ -20,10 +20,10 @@ def generate_launch_description():
   default_launch_dir = os.path.join(pkg_share, 'launch')
   default_model_path = os.path.join(pkg_share, 'models/eced3901bot.urdf')
   robot_name_in_urdf = 'eced3901bot'
-  default_rviz_config_path = os.path.join(pkg_share, 'rviz/nav2_config.rviz')
+  default_rviz_config_path = os.path.join(pkg_share, 'rviz/nav2.rviz')
   nav2_dir = FindPackageShare(package='nav2_bringup').find('nav2_bringup') 
   nav2_launch_dir = os.path.join(nav2_dir, 'launch') 
-  static_map_path = os.path.join(pkg_share, 'maps', 'lab4_map.yaml')
+  static_map_path = os.path.join(pkg_share, 'maps', 'course_map.yaml')
   nav2_params_path = os.path.join(pkg_share, 'params', 'nav2_params.yaml')
   nav2_bt_path = FindPackageShare(package='nav2_bt_navigator').find('nav2_bt_navigator')
   behavior_tree_xml_path = os.path.join(nav2_bt_path, 'behavior_trees', 'navigate_w_replanning_and_recovery.xml')
@@ -94,7 +94,7 @@ def generate_launch_description():
 
   declare_slam_cmd = DeclareLaunchArgument(
     name='slam',
-    default_value='True',
+    default_value='False',
     description='Whether to run SLAM')
     
   declare_use_rviz_cmd = DeclareLaunchArgument(
@@ -110,30 +110,6 @@ def generate_launch_description():
    
   # Specify the actions
 
-  #launch the DT1 square node
-  '''
-  start_dt1 = Node(
-    package= 'eced3901',
-    executable= 'dt1',
-    name = 'dt1',
-    output = 'screen')
-  '''
-   
-  #launch saving node
-
-  map_save = Node(
-    package= 'nav2_map_server', #not sure if map_server is right for package but we use it to save map in lab 4 so im going to try it
-    executable= 'map_saver_cli',
-    name = 'map_saver',
-    arguments = ['-f', '/home/student/ros2_ws/src/eced3901/maps/course_map'])
-
-  #launch timer node (runs the map save node after 80 seconds)
-
-  delay = TimerAction( 
-    period = 450.0,
-    actions = [map_save],
-  )
-  
   # Launch RViz
   start_rviz_cmd = Node(
     condition=IfCondition(use_rviz),
@@ -155,6 +131,23 @@ def generate_launch_description():
                         'default_bt_xml_filename': default_bt_xml_filename,
                         'autostart': autostart}.items())
 
+  
+  # Launch WP follower
+  start_wpfollow = Node(
+    condition=IfCondition(use_rviz),
+    package='eced3901',
+    executable='demo_inspection.py',
+    name='wp_follower',
+    output='screen') 
+    
+  # Launch LED code
+  start_led = Node(
+    package='eced3901',
+    executable='led_code.cpp',
+    name='LEDS',
+    output='screen')
+  
+  
   # Create the launch description and populate
   ld = LaunchDescription()
 
@@ -175,9 +168,9 @@ def generate_launch_description():
   # Add any actions
   ld.add_action(start_rviz_cmd)
   ld.add_action(start_ros2_navigation_cmd)
-  #ld.add_action(start_dt1)  #starts moving the robot in a square
-  ld.add_action(delay)      #saves the map after a delay (when the robot is done)
-
+  ld.add_action(start_wpfollow)
+  ld.add_action(start_led)
+  
   return ld
 
 
