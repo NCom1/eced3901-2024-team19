@@ -48,6 +48,19 @@ def main():
 
     # Inspection route, probably read in from a file for a real application
     # from either a map or drive and repeat. The main route that will be taken for DT3, needs to determine the waypoint values before starting. [x, y, angle]. Angle needs to be in rads and NOT DEG
+    
+    inspection_route = [
+        [2.870, 0.000, -1.571],
+        [2.870, -3.153, 3.1415],
+        [0.208, -3.000, 1.571],
+        [0.208, -1.000, 0.000],
+        [2.466, -1.000, 1.571], 
+        [2.316, -0.818, 3.1415],
+        [0.487, -0.818, 1.571],
+        [0.487, -0.513, 0.000],
+        [2.870, -0.513, 1.571],
+        [2.870, 0.000, 3.1415],
+        [0.000, 0.000, 3.1415]]
     '''
     inspection_route = [
         [1.000, 0.000, 1.571], #position at bottom right
@@ -55,21 +68,22 @@ def main():
         [0.000, 1.000, -1.571], #position top left
         [0.000, 0.000, 0.000]] #return to starting position
     '''
+    '''
     #Safer route through final course
     inspection_route = [
-        [0.300, 3.175, -1.571],
-        [3.454, 3.175, 3.1415],
+        [0.300, 3.100, -1.571],
+        [3.454, 3.100, 3.1415],
         [3.454, 0.508, 1.571],
         [1.442, 0.508, 0.000],
         [1.442, 2.616, 1.571], 
         [1.118, 2.616, 3.1415],
         [1.118, 0.787, 1.571],
         [0.813, 0.787, 0.000],
-        [0.813, 3.175, 1.571],
-        [0.300, 3.175, 3.1415],
+        [0.813, 3.100, 1.571],
+        [0.300, 3.100, 3.1415],
         [0.300, 0.300, 3.1415]]
-
-  
+	'''
+  #Y value was 3.175
     '''
     #More risky route through the final course
     inspection_route = [
@@ -98,8 +112,8 @@ def main():
     initial_pose = PoseStamped()
     initial_pose.header.frame_id = 'map'
     initial_pose.header.stamp = navigator.get_clock().now().to_msg()
-    initial_pose.pose.position.x = 0.300 #Initial position set to 0.30 since 12 inch from walls
-    initial_pose.pose.position.y = 0.300
+    initial_pose.pose.position.x = 0.000 #Initial position set to 0.30 since 12 inch from walls (.3, -.0)
+    initial_pose.pose.position.y = 0.000
     initial_pose.pose.orientation.z = 0.000
     initial_pose.pose.orientation.w = 1.000
     navigator.setInitialPose(initial_pose)
