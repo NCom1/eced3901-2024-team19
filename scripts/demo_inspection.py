@@ -62,11 +62,28 @@ def main():
         [2.870, 0.000, 3.1415],
         [0.000, 0.000, 3.1415]]
     '''
+    #More risky route through the final course
     inspection_route = [
-        [1.000, 0.000, 1.571], #position at bottom right
-        [1.000, 1.000, 3.1415], #position opposite starting location
-        [0.000, 1.000, -1.571], #position top left
-        [0.000, 0.000, 0.000]] #return to starting position
+        [2.870, 0.000, -1.571],
+        [2.870, -2.337, 3.1414],
+        [1.041, -2.337, -0.785],
+        [1.134, -2.680, 0.000],
+        [1.903, -2.553, 0.785],
+        [2.032, -2.032, 2.356],
+        [1.689, -1.689, 3.1415],
+        [1.168, -1.816, -2.356],
+        [1.041, -2.032, 0.000],
+        [1.727, -1.994, 3.1415],
+        [2.388, 1.841, -1.571],    #Waypoint that makes contact with the thumper (Need x point in a way that only a small part touches (depends on extended attachment)
+        [0.358, -2.088, 1.571], #first waypoint outside of middle need to add middle waypoints later.
+        [0.208, -1.000, 0.000],
+        [2.466, -1.000, 1.571], 
+        [2.316, -0.818, 3.1415],
+        [0.487, -0.818, 1.571],
+        [0.487, -0.513, 0.000],
+        [2.870, -0.513, 1.571],
+        [2.870, 0.000, 3.1415],
+        [0.000, 0.000, 3.1415]]
     '''
     '''
     #Safer route through final course
