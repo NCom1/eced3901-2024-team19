@@ -50,10 +50,20 @@ def main():
     # from either a map or drive and repeat. The main route that will be taken for DT3, needs to determine the waypoint values before starting. [x, y, angle]. Angle needs to be in rads and NOT DEG
     '''
     inspection_route = [
-    	[1.300, 0.000, 0.000],
-    	[2.870, 0.000, 3.1414],
-    	[1.300, 0.000, 3.1414],
-    	[0.000, 0.000, 0.000]]
+    	[2.870, 0.000, -1.571], #exit of extrance
+        [2.870, -0.513, 3.1414], #start last line
+        [1.191, -0.513, 3.1415], #midpoint of last line
+        [0.487, -0.513, -1.571], #endpoint of final line
+        [0.487, -0.818, 0.000], #start of middle line
+        [1.191, -0.818, 0.000], #midpoint of middle line
+        [2.316, -0.818, -1.571], #end of middle line
+        [2.316, -1.000, 3.1414], #start of first line (might need to tweek values)
+        [0.487, -1.000, -0.7855], #endpoint of first line with 45deg to thumper 
+        [1.537, -2.146, -0.7855], #thumper impact
+        [2.870, -0.900, 1.571], #exit of middle
+        [2.870, 0.000, 3.1414], #entrance to tunnel
+        [0.000, 0.000, 0.000], return to startpoint
+        
     
     '''
     inspection_route = [
