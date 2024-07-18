@@ -48,19 +48,30 @@ def main():
 
     # Inspection route, probably read in from a file for a real application
     # from either a map or drive and repeat. The main route that will be taken for DT3, needs to determine the waypoint values before starting. [x, y, angle]. Angle needs to be in rads and NOT DEG
-    
+    '''
     inspection_route = [
-        [2.870, 0.000, -1.571],
-        [2.870, -3.153, 3.1415],
-        [0.208, -3.000, 1.571],
-        [0.208, -1.000, 0.000],
-        [2.466, -1.000, 1.571], 
-        [2.316, -0.818, 3.1415],
-        [0.487, -0.818, 1.571],
-        [0.487, -0.513, 0.000],
-        [2.870, -0.513, 1.571],
-        [2.870, 0.000, 3.1415],
-        [0.000, 0.000, 3.1415]]
+    	[1.300, 0.000, 0.000],
+    	[2.870, 0.000, 3.1414],
+    	[1.300, 0.000, 3.1414],
+    	[0.000, 0.000, 0.000]]
+    
+    '''
+    inspection_route = [
+        [2.870, 0.000, -1.571], #exit of extrance
+        [2.870, -3.153, 3.1414], #start enemy line
+        [0.208, -3.000, 1.571], #end enemy line
+        [0.208, -1.000, 0.000], #start first line
+        [2.466, -1.000, 1.571], #end first line
+        [2.316, -0.818, 3.1414], #start middle line
+        [1.191, -0.818, 3.1414], #midpoint middle line
+        [0.487, -0.818, 1.571], #end middle line
+        [0.487, -0.513, 0.000], #start final line
+        [1.191, -0.513, 0.000], #midpoint of final line
+        [2.870, -0.513, 1.571], #end of spice collection
+        [2.870, 0.000, 3.1414], #entrance to exiti
+        [1.435, 0.000, 3.1414], #mid point return
+        [0.000, 0.000, 3.1414]] #end point
+   
     '''
     #More risky route through the final course
     inspection_route = [
@@ -84,47 +95,9 @@ def main():
         [2.870, -0.513, 1.571],
         [2.870, 0.000, 3.1415],
         [0.000, 0.000, 3.1415]]
+    
     '''
-    '''
-    #Safer route through final course
-    inspection_route = [
-        [0.300, 3.100, -1.571],
-        [3.454, 3.100, 3.1415],
-        [3.454, 0.508, 1.571],
-        [1.442, 0.508, 0.000],
-        [1.442, 2.616, 1.571], 
-        [1.118, 2.616, 3.1415],
-        [1.118, 0.787, 1.571],
-        [0.813, 0.787, 0.000],
-        [0.813, 3.100, 1.571],
-        [0.300, 3.100, 3.1415],
-        [0.300, 0.300, 3.1415]]
-	'''
-  #Y value was 3.175
-    '''
-    #More risky route through the final course
-    inspection_route = [
-        [0.300, 3.175, -1.571],
-        [2.680, 3.175, 3.1414],
-        [2.680, 1.346, -0.785],
-        [2.984, 1.689, 0.000],
-        [2.858, 2.210, 0.785],
-        [2.337, 2.337, 2.356],
-        [1.944, 1.944, 3.1415],
-        [2.121, 1.473, -2.356],
-        [2.337, 1.346, 0.000],
-        [2.375, 2.032, 3.1415],
-        [2.388, 1.841, -1.571],    #Waypoint that makes contact with the thumper (Need x point in a way that only a small part touches (depends on extended attachment)
-        [2.234, 0.508, 1.571], #first waypoint outside of middle need to add middle waypoints later.
-        [1.442, 0.508, 0.000],
-        [1.442, 2.616, 1.571],
-        [1.118, 2.616, 3.1415],
-        [1.118, 0.787, 1.571],
-        [0.813, 0.787, 0.000],
-        [0.813, 3.175, 1.571],
-        [0.300, 3.175, 3.1415],
-        [0.300, 0.300, 3.1415]]
-    '''
+  
     # Set our demo's initial pose
     initial_pose = PoseStamped()
     initial_pose.header.frame_id = 'map'
@@ -189,9 +162,4 @@ def main():
 if __name__ == '__main__':
     main()
     
-    
-    
-   # q = Quaternion() #gets our quarternion values
-    #    q.z = math.sin(pt[2] / 2) #these 2 lines start to convert the quaternion into euler values
-     #   q.w = math.cos(pt[2] / 2)
-      #  inspection_pose.pose.orientation = q
+

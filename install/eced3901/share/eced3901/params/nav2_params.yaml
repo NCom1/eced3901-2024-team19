@@ -127,7 +127,7 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.10 #was 0.25 for both tolerances
+      xy_goal_tolerance: 0.10 #was 0.10 for both tolerances
       yaw_goal_tolerance: 0.10
     # DWB parameters
     FollowPath:
@@ -135,11 +135,11 @@ controller_server:
       debug_trajectory_details: True
       min_vel_x: 0.0
       min_vel_y: 0.0
-      max_vel_x: 0.15 #was 0.15 and 0
+      max_vel_x: 0.25 #was 0.15 and 0
       max_vel_y: 0.0
-      max_vel_theta: 0.50
+      max_vel_theta: 5.00 #was 0.5
       min_speed_xy: 0.0
-      max_speed_xy: 0.15
+      max_speed_xy: 0.25
       min_speed_theta: 0.0
       # Add high threshold velocity for turtlebot 3 issue.
       # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75
@@ -156,7 +156,7 @@ controller_server:
       linear_granularity: 0.05
       angular_granularity: 0.025
       transform_tolerance: 0.2
-      xy_goal_tolerance: 0.05
+      xy_goal_tolerance: 0.10 #increase tolerance
       trans_stopped_velocity: 0.25
       short_circuit_trajectory_evaluation: True
       stateful: True
@@ -193,7 +193,7 @@ local_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 1.5 #was 3.0 chnaged to 1.5 and improved
-        inflation_radius: 0.20 #Dangerzone total area was 0.25
+        inflation_radius: 0.10 #Dangerzone total area was 0.25 (0.20)
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
@@ -213,7 +213,7 @@ local_costmap:
           raytrace_max_range: 10.0
           raytrace_min_range: 0.0 #was 0
           obstacle_max_range: 9.5
-          obstacle_min_range: 0.05 #was 0
+          obstacle_min_range: 0.00 #was 0
       static_layer:
         map_subscribe_transient_local: True
       always_send_full_costmap: True
@@ -249,14 +249,14 @@ global_costmap:
           raytrace_max_range: 10.0
           raytrace_min_range: 0.0 #was 0 gonna try fo 0.5
           obstacle_max_range: 9.5
-          obstacle_min_range: 0.05 #was 0 gonna see if no lonmger hitting object
+          obstacle_min_range: 0.00 #was 0 gonna see if no lonmger hitting object
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 1.5 #was 3.0
-        inflation_radius: 0.20 #was .95
+        inflation_radius: 0.10 #was .95 (0.20)
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:

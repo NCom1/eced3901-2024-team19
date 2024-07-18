@@ -16,6 +16,7 @@
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/launch/build/.built_by
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/launch/build/COLCON_IGNORE
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/launch/lab6nav.launch.py
+/home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/launch/finalcourse.launch.py
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/launch/lab5dt2.launch.py
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/launch/lab6b.launch.py
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/launch/lab5.launch.py
@@ -29,11 +30,15 @@
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/launch/lab3.launch.py
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/launch/lab6a.launch.py
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/launch/lab7nav.launch.py
+/home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/maps/course_map1.pgm
+/home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/maps/course_map1.yaml
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/maps/Lab5_DT2_Map_Folder/.yaml
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/maps/Lab5_DT2_Map_Folder/DT2_Map.pgm
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/maps/Lab5_DT2_Map_Folder/.pgm
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/maps/Lab5_DT2_Map_Folder/DT2_Map.yaml
+/home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/maps/course_map.pgm
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/maps/lab4_map.yaml
+/home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/maps/course_map.yaml
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/maps/lab4_map.pgm
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/models/eced3901_lab4/model.sdf
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/models/eced3901_lab4/model.config
@@ -46,6 +51,7 @@
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/rviz/nav2_config.rviz
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/src/eced3901_dt1.cpp
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/src/publisher_member_function.cpp
+/home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/src/led_code.cpp
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/worlds/eced3901_lab6.world
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/worlds/empty.world
 /home/student/ros2_ws/src/eced3901/install/eced3901/share/eced3901/worlds/eced3901_lab4.world

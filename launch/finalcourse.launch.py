@@ -23,7 +23,7 @@ def generate_launch_description():
   default_rviz_config_path = os.path.join(pkg_share, 'rviz/nav2.rviz')
   nav2_dir = FindPackageShare(package='nav2_bringup').find('nav2_bringup') 
   nav2_launch_dir = os.path.join(nav2_dir, 'launch') 
-  static_map_path = os.path.join(pkg_share, 'maps', 'course_map.yaml')
+  static_map_path = os.path.join(pkg_share, 'maps', 'course_map1.yaml')
   nav2_params_path = os.path.join(pkg_share, 'params', 'nav2_params.yaml')
   nav2_bt_path = FindPackageShare(package='nav2_bt_navigator').find('nav2_bt_navigator')
   behavior_tree_xml_path = os.path.join(nav2_bt_path, 'behavior_trees', 'navigate_w_replanning_and_recovery.xml')
@@ -140,12 +140,15 @@ def generate_launch_description():
     name='wp_follower',
     output='screen') 
     
-  # Launch LED code
-  start_led = Node(
-    package='eced3901',
-    executable='led_code.cpp',
-    name='LEDS',
-    output='screen')
+  delay = TimerAction( 
+    period = 15.0,
+    actions = [map_save],
+  )
+  
+  start_dalmotor = Node(
+    package='dalmotor',
+    executable='dalmotor',
+    name='dalmotor')
   
   
   # Create the launch description and populate
@@ -168,9 +171,8 @@ def generate_launch_description():
   # Add any actions
   ld.add_action(start_rviz_cmd)
   ld.add_action(start_ros2_navigation_cmd)
+  ld.add_action(start_dalmotor)
+  ld.add_action(delay)
   ld.add_action(start_wpfollow)
-  ld.add_action(start_led)
   
   return ld
-
-
